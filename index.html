@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>УП 01 Гибадулин Руслан</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #0f1419;
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 40px 64px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding: 10px 0;
+            border-bottom: 2px solid #1e88e5;
+        }
+        
+        h1 {
+            font-size: 3.5em;
+            color: #fff;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #90caf9;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .project-card {
+            background: linear-gradient(135deg, #1a1e2e 0%, #16213e 100%);
+            border: 1px solid #264653;
+            border-radius: 8px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #1e88e5, #00bcd4);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .project-card:hover {
+            border-color: #1e88e5;
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(30, 136, 229, 0.2);
+        }
+        
+        .project-card:hover::before {
+            transform: translateX(0);
+        }
+        
+        h3 {
+            font-size: 1.5em;
+            color: #fff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .description {
+            color: #b0bec5;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .tech-stack {
+            margin: 15px 0;
+            padding: 12px;
+            background: rgba(30, 136, 229, 0.1);
+            border-left: 3px solid #1e88e5;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        .tech-stack strong {
+            color: #64b5f6;
+        }
+        
+        .code-preview {
+            background: #0f1419;
+            color: #64b5f6;
+            padding: 30px;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75em;
+            overflow: auto;
+            border: 1px solid #264653;
+            max-height: 300px;
+            white-space: pre;
+        }
+        
+        .screenshot-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            align-items: start;
+        }
+        
+        .screenshot-gallery .screenshot {
+            width: 100%;
+            border-radius: 4px;
+            border: 1px solid #264653;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            object-fit: contain;
+            max-height: 400px;
+        }
+        
+        .screenshot-gallery .screenshot:hover {
+            border-color: #1e88e5;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.3);
+        }
+        
+        .screenshot-gallery.featured {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .screenshot-gallery.featured .featured-main {
+            width: 100%;
+            border-radius: 4px;
+            border: 1px solid #264653;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .screenshot-gallery.featured .featured-main:hover {
+            border-color: #1e88e5;
+            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.3);
+        }
+        
+        .screenshot-gallery.featured .featured-thumbs {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+        }
+        
+        .screenshot-gallery.featured .featured-thumbs img {
+            border-radius: 4px;
+            border: 1px solid #264653;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 80px;
+            object-fit: cover;
+        }
+        
+        .screenshot-gallery.featured .featured-thumbs img:hover {
+            border-color: #1e88e5;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.3);
+        }
+        
+
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid #264653;
+            color: #768fa0;
+            font-size: 0.9em;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal-content {
+            position: relative;
+            margin: auto;
+            display: block;
+            max-height: 90vh;
+            max-width: 90vw;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 8px;
+            object-fit: contain;
+        }
+        
+
+        
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 36px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close:hover {
+            color: #1e88e5;
+        }
+        
+
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .project-card {
+                padding: 20px;
+            }
+            
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Гибадулин Руслан</h1>
+            <p class="subtitle">Разработанные приложения в ходе учебной практики</p>
+        </header>
+
+        <section class="projects-grid">
+            <!-- Задача 1: Линейный алгоритм -->
+            <div class="project-card">
+                <h3>1.1 Задача линейного алгоритма</h3>
+                <p class="description"><strong>Условие:</strong> Задумали число. Если его увеличить на 15, а результат умножить на 4, получится 100. Какое число задумали?</p>
+                <div class="tech-stack">
+                    <strong>Технологии:</strong> Java
+                </div>
+                <div class="code-preview">
+public class Task1_1 {
+
+    public static int findNumber() throws ArithmeticException {
+        int result = 100;
+
+        if (4 == 0) {
+            throw new ArithmeticException("Ошибка: деление на ноль.");
+        }
+
+        int x = result / 4 - 15;
+        return x;
+    }
+
+    public static void main(String[] args) {
+        try {
+            int number = findNumber();
+            System.out.println("Задуманное число: " + number);
+        } catch (ArithmeticException e) {
+            System.out.println("Ошибка вычисления: " + e.getMessage());
+        }
+    }
+}
+
+                </div>
+            </div>
+
+            <!-- Задача 2: Разветвляющийся алгоритм -->
+            <div class="project-card">
+                <h3>1.2 Задача разветвляющегося алгоритма</h3>
+                <p class="description"><strong>Условие:</strong> Минимум из двух чисел. Сравните два числа и выведите меньшее.</p>
+                <div class="tech-stack">
+                    <strong>Технологии:</strong> Java
+                </div>
+                <div class="code-preview">
+import java.util.Scanner;
+import java.io.IOException;
+
+public class Task1_2 {
+
+    public static int findMin(int a, int b) throws IOException {
+        if (a == b) {
+            throw new IOException("Оба числа равны — минимального нет.");
+        }
+        return (a < b) ? a : b;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            System.out.print("Введите первое число: ");
+            int a = scanner.nextInt();
+
+            System.out.print("Введите второе число: ");
+            int b = scanner.nextInt();
+
+            int min = findMin(a, b);
+            System.out.println("Минимум: " + min);
+
+        } catch (IOException e) {
+            System.out.println("Ошибка сравнения: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Ошибка ввода: введено не число.");
+        } finally {
+            scanner.close();
+        }
+    }
+}
+
+                </div>
+            </div>
+
+            <!-- Задача 3: Циклический алгоритм -->
+            <div class="project-card">
+                <h3>1.3 Задача циклического алгоритма</h3>
+                <p class="description"><strong>Условие:</strong> Таблица умножения. Выведите таблицу умножения для числа K (от 1 до 10).</p>
+                <div class="tech-stack">
+                    <strong>Технологии:</strong> Java
+                </div>
+                <div class="code-preview">
+import java.util.Scanner;
+
+public class Task1_3 {
+
+    public static void printTable(int k) throws IllegalArgumentException, OutOfMemoryError {
+        if (k <= 0) {
+            throw new IllegalArgumentException("Число должно быть положительным.");
+        }
+
+        if (k > 10000) {
+            throw new OutOfMemoryError("Слишком большое число: может закончиться память.");
+        }
+
+        for (int i = 1; i <= 10; i++) {
+            System.out.println(k + " * " + i + " = " + (k * i));
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            System.out.print("Введите число K: ");
+            int k = scanner.nextInt();
+
+            printTable(k);
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        } catch (OutOfMemoryError e) {
+            System.out.println("Ошибка памяти: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Ошибка ввода: введите целое число.");
+        } finally {
+            scanner.close();
+        }
+    }
+}
+
+                </div>
+            </div>
+
+            <!-- Задача 4: Проектирование классов -->
+            <div class="project-card">
+                <h3>1.4 Задача на проектирование классов</h3>
+                <p class="description"><strong>Условие:</strong> Класс «Студент». Создайте класс Student с полями name, age, grade с методом для вывода информации о студенте.</p>
+                <div class="tech-stack">
+                    <strong>Технологии:</strong> Java
+                </div>
+                <div class="code-preview">
+Student.java
+public class Student {
+    private String name;
+    private int age;
+    private double grade;
+
+    public Student(String name, int age, double grade) throws InvalidFieldException {
+
+        if (name == null || name.isEmpty()) {
+            throw new InvalidFieldException("Имя не может быть пустым.");
+        }
+
+        if (age <= 0) {
+            throw new InvalidFieldException("Возраст должен быть положительным.");
+        }
+
+        if (grade < 0 || grade > 5) {
+            throw new InvalidFieldException("Оценка должна быть в диапазоне 0–5.");
+        }
+
+        this.name = name;
+        this.age = age;
+        this.grade = grade;
+    }
+
+    public void printInfo() {
+        System.out.println("Имя: " + name);
+        System.out.println("Возраст: " + age);
+        System.out.println("Оценка: " + grade);
+    }
+}
+InvalidFieldException.java
+public class InvalidFieldException extends Exception {
+    public InvalidFieldException(String message) {
+        super(message);
+    }
+}
+StudentDemo.java
+import java.util.Scanner;
+
+public class StudentDemo {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            // Ввод данных студента
+            System.out.print("Введите имя студента: ");
+            String name = scanner.nextLine();
+
+            System.out.print("Введите возраст: ");
+            int age = scanner.nextInt();
+
+            System.out.print("Введите оценку (0–5): ");
+            double grade = scanner.nextDouble();
+
+            Student student = new Student(name, age, grade);
+
+            student.printInfo();
+
+        } catch (InvalidFieldException e) {
+            System.out.println("Ошибка данных: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Ошибка ввода: неверный формат.");
+        } finally {
+            scanner.close();
+        }
+    }
+}
+
+                </div>
+            </div>
+
+            <!-- Задача 5: Графический интерфейс -->
+            <div class="project-card">
+                <h3>1.5	Задача с графическим интерфейсом</h3>
+                <p class="description"><strong>Условие:</strong> Простой чат. Создайте текстовый чат для обмена сообщениями между двумя пользователями.</p>
+                <div class="tech-stack">
+                    <strong>Технологии:</strong> Java Swing
+                </div>
+                <div class="code-preview">
+import javax.swing.*;
+import javax.swing.text.*;
+import java.awt.*;
+
+public class ChatApp extends JFrame {
+
+    private JTextPane chatPane;
+    private StyledDocument doc;
+
+    private JTextField user1Input;
+    private JTextField user2Input;
+
+    private JButton sendUser1;
+    private JButton sendUser2;
+
+    public ChatApp() {
+        setTitle("Простой чат");
+        setSize(500, 400);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        chatPane = new JTextPane();
+        chatPane.setEditable(false);
+        doc = chatPane.getStyledDocument();
+
+        JScrollPane scrollPane = new JScrollPane(chatPane);
+        add(scrollPane, BorderLayout.CENTER);
+
+        // Панель User 1
+        JPanel user1Panel = new JPanel(new BorderLayout());
+        user1Input = new JTextField();
+        sendUser1 = new JButton("User 1 отправить");
+
+        user1Panel.add(new JLabel("User 1: "), BorderLayout.WEST);
+        user1Panel.add(user1Input, BorderLayout.CENTER);
+        user1Panel.add(sendUser1, BorderLayout.EAST);
+
+        // Панель User 2
+        JPanel user2Panel = new JPanel(new BorderLayout());
+        user2Input = new JTextField();
+        sendUser2 = new JButton("User 2 отправить");
+
+        user2Panel.add(new JLabel("User 2: "), BorderLayout.WEST);
+        user2Panel.add(user2Input, BorderLayout.CENTER);
+        user2Panel.add(sendUser2, BorderLayout.EAST);
+
+
+        JPanel bottomPanel = new JPanel(new GridLayout(2, 1));
+        bottomPanel.add(user1Panel);
+        bottomPanel.add(user2Panel);
+
+        add(bottomPanel, BorderLayout.SOUTH);
+
+        sendUser1.addActionListener(e -> sendMessage("User 1", user1Input, Color.BLUE));
+        sendUser2.addActionListener(e -> sendMessage("User 2", user2Input, Color.RED));
+    }
+
+    private void sendMessage(String user, JTextField inputField, Color color) {
+        String text = inputField.getText().trim();
+
+        if (!text.isEmpty()) {
+            try {
+                Style style = doc.addStyle("Style_" + user, null);
+                StyleConstants.setForeground(style, color);
+                StyleConstants.setBold(style, true);
+
+                doc.insertString(doc.getLength(), user + ": " + text + "\n", style);
+
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
+
+            inputField.setText("");
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            ChatApp app = new ChatApp();
+            app.setVisible(true);
+        });
+    }
+}
+
+                </div>
+            </div>
+            
+            <!-- Задача 6: Ассемблер -->
+            <div class="project-card">
+                <h3>1.6 Ассемблер</h3>
+                <p class="description"><strong>Условие:</strong> Задача 1. N = N * 2. Задача 2. x:= x + a</p>
+                <div class="tech-stack">
+                    <strong>Технологии:</strong> Assembly (NASM 2.16)
+                </div>
+                <div class="code-preview">
+--------------------
+Задача 1. N = N * 2
+--------------------
+bits 64
+section .data
+    N dq 15
+    msg db "N * 2 = "
+    len equ $ - msg
+
+section .text
+    global _start
+
+_start:
+    ; Основное решение: N := N * 2
+    mov rax, [N]
+    shl rax, 1
+    mov [N], rax
+    
+    ; Вывод сообщения
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, msg
+    mov rdx, len
+    syscall
+    
+    ; Конвертация числа в строку
+    mov rax, [N]
+    mov rcx, 10
+    mov rsi, rsp
+    sub rsp, 20
+    xor rbx, rbx
+    
+convert:
+    xor edx, edx
+    div rcx
+    add dl, '0'
+    push rdx
+    inc rbx
+    cmp rax, 0
+    jne convert
+    
+output:
+    pop rax
+    mov [rsi], al
+    mov rax, 1
+    mov rdi, 1
+    mov rdx, 1
+    syscall
+    dec rbx
+    jne output
+    
+    mov rax, 60
+    xor rdi, rdi
+    syscall
+
+--------------------
+Задача 2. x := x + a
+--------------------
+bits 64
+section .data
+    x dq 20
+    a dq 15
+    msg db "x = "
+    len equ $ - msg
+    msg2 db ", a = "
+    len2 equ $ - msg2
+    msg3 db ", x+a = "
+    len3 equ $ - msg3
+    newline db 10
+
+section .text
+    global _start
+
+; Процедура Padd(x, a)
+Padd:
+    mov rax, [rdi]      ; rax = *x
+    add rax, rsi        ; rax = *x + a
+    mov [rdi], rax      ; *x = rax
+    ret
+
+_start:
+    ; Вывод "x = "
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, msg
+    mov rdx, len
+    syscall
+    
+    ; Вывод x
+    mov rax, [x]
+    call print_num
+    
+    ; Вывод ", a = "
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, msg2
+    mov rdx, len2
+    syscall
+    
+    ; Вывод a
+    mov rax, [a]
+    call print_num
+    
+    ; Вызов процедуры Padd
+    mov rdi, x
+    mov rsi, [a]
+    call Padd
+    
+    ; Вывод ", x+a = "
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, msg3
+    mov rdx, len3
+    syscall
+    
+    ; Вывод результата
+    mov rax, [x]
+    call print_num
+    
+    ; Вывод новой строки
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, newline
+    mov rdx, 1
+    syscall
+    
+    ; Выход
+    mov rax, 60
+    xor rdi, rdi
+    syscall
+
+; Вывод числа из rax
+print_num:
+    push rbx
+    push rcx
+    push rdx
+    push rsi
+    push rdi
+    sub rsp, 24
+    
+    mov rbx, rsp
+    mov rcx, 10
+    xor r8, r8          ; счётчик цифр
+    
+convert_loop:
+    xor edx, edx
+    div rcx
+    add dl, '0'
+    mov [rbx + r8], dl
+    inc r8
+    test rax, rax
+    jnz convert_loop
+    
+    ; Выводим в обратном порядке
+    dec r8
+output_loop:
+    movzx eax, byte [rbx + r8]
+    mov [rsp + 20], al
+    mov rax, 1
+    mov rdi, 1
+    lea rsi, [rsp + 20]
+    mov rdx, 1
+    syscall
+    cmp r8, 0
+    je done
+    dec r8
+    jmp output_loop
+    
+done:
+    add rsp, 24
+    pop rdi
+    pop rsi
+    pop rdx
+    pop rcx
+    pop rbx
+    ret
+                </div>
+            </div>
+
+            <!-- АИС -->
+            <div class="project-card">
+                <h3>2. Разработка АИС "Сеть книжных магазинов"</h3>
+                <p class="description">Система учёта и управления книжными магазинами.</p>
+                <div class="tech-stack">
+                    <strong>Технологии:</strong> Java Swing, SQLite
+                </div>
+                <div class="screenshot-gallery featured" id="aisGallery">
+                    <img src="Screenshot_26.png" class="featured-main" id="aisFeatured" onclick="openModal('Screenshot_26.png')">
+                    <div class="featured-thumbs">
+                        <img src="Screenshot_27.png" onclick="changeAisImage('Screenshot_27.png')">
+                        <img src="Screenshot_29.png" onclick="changeAisImage('Screenshot_29.png')">
+                        <img src="Screenshot_30.png" onclick="changeAisImage('Screenshot_30.png')">
+                        <img src="Screenshot_31.png" onclick="changeAisImage('Screenshot_31.png')">
+                        <img src="Screenshot_32.png" onclick="changeAisImage('Screenshot_32.png')">
+                        <img src="Screenshot_33.png" onclick="changeAisImage('Screenshot_33.png')">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Мобильное приложение -->
+            <div class="project-card">
+                <h3>3. Разработка мобильного приложения</h3>
+                <p class="description">Мобильное приложение для книжного магазина.</p>
+                <div class="tech-stack">
+                    <strong>Технологии:</strong> Android Studio, Kotlin, Jetpack Compose
+                </div>
+                <div class="screenshot-gallery">
+                    <img src="photo_2025-11-28_03-23-28.jpg" class="screenshot" onclick="openModal('photo_2025-11-28_03-23-28.jpg')">
+                    <img src="photo_2025-11-28_03-23-28 (2).jpg" class="screenshot" onclick="openModal('photo_2025-11-28_03-23-28 (2).jpg')">
+                    <img src="photo_2025-11-28_03-23-28 (3).jpg" class="screenshot" onclick="openModal('photo_2025-11-28_03-23-28 (3).jpg')">
+                    <img src="photo_2025-11-28_03-23-28 (4).jpg" class="screenshot" onclick="openModal('photo_2025-11-28_03-23-28 (4).jpg')">
+                    <img src="photo_2025-11-28_03-23-28 (5).jpg" class="screenshot" onclick="openModal('photo_2025-11-28_03-23-28 (5).jpg')">
+                    <img src="photo_2025-11-28_03-23-28 (6).jpg" class="screenshot" onclick="openModal('photo_2025-11-28_03-23-28 (6).jpg')">
+                </div>
+            </div>
+        </section>
+
+    <!-- Модальное окно -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <script>
+        function openModal(src) {
+            const modal = document.getElementById('imageModal');
+            const img = document.getElementById('modalImage');
+            img.src = src;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeAisImage(src) {
+            document.getElementById('aisFeatured').src = src;
+        }
+
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
